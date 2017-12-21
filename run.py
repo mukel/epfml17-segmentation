@@ -76,29 +76,44 @@ def build_model(gpus=0):
 model, simple_model = build_model(0)
 model.summary()
 
-model.fit(X, y,
-          batch_size=batch_size,
-          epochs=epochs,
-          verbose=1,
-          shuffle=True)
+# Uncomment to generate models.
 
-# save the model and the weights to files
-model_json = simple_model.to_json()
-with open('model_18', 'w') as f:
-    f.write(model_json)
+#model.fit(X, y,
+#          batch_size=batch_size,
+#          epochs=epochs,
+#          verbose=1,
+#          shuffle=True)
 
-simple_model.save_weights('weights_18')
+## save the model and the weights to files
+#model_json = simple_model.to_json()
+#with open('model_18', 'w') as f:
+#    f.write(model_json)
+
+#simple_model.save_weights('weights_18')
+
+# Load pre-trained model.
+fm = open('model_18')
+model = model_from_json(fm.read())
+fm.close()
+
+model.load_weights('weights_18', by_name=False)
+
+model.compile(loss='binary_crossentropy',
+              optimizer=Adam(lr=1e-3),#'rmsprop',
+              metrics=['accuracy'])
 
 # Helper variables and functions for the submission
 foreground_threshold = 0.5 # percentage of pixels > 1 required to assign a foreground label to a patch
 patch_size = 16
 
 def pred_print(img, img_patches):
+    print('Prediction started...')
     pred = [
         np.round((np.median(model.predict(np.asarray(image_trans(patch))))))
         for patch in img_patches
     ]
     pred = np.asarray(pred)
+    print('Prediction done...')
     #disp_img_pred(img, pred, patch_size)
     return pred
 
