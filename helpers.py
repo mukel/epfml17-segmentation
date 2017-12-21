@@ -4,9 +4,13 @@ import re
 import cv2
 import imutils
 from PIL import Image
+import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import numpy as np
 import random
+
+patch_size = 16
+
 
 
 def load_image(infilename):
@@ -221,13 +225,13 @@ def label_to_img(imgwidth, imgheight, w, h, labels):
     return im
             
             
-def img_to_submission_strings(labels, img_number, w, h):
+def img_to_submission_strings(labels, img_number, w, h, patch_size):
     """outputs the strings that should go into the submission file for a given image"""
     label_img = labels.reshape(w//patch_size,h//patch_size)
     for j in range(0, w, patch_size):
         for i in range(0, h, patch_size):
             label = label_img[i//patch_size][j//patch_size]
-            if label > foreground_threshold:
+            if label >= 0.5:
                 sub_lab = 1
             else:
                 sub_lab = 0
@@ -249,7 +253,7 @@ def image_to_inputs(img, patch_size):
     return patches
 
 
-def disp_img_pred(img, pred):
+def disp_img_pred(img, pred, patch_size):
     w = img.shape[0]
     h = img.shape[1]
     predicted_im = label_to_img(w, h, patch_size, patch_size, pred)
