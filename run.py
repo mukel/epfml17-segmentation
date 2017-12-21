@@ -19,7 +19,8 @@ from helpers import *
 
 patch_size = 16 # each patch is 16*16 pixels
 
-imgs, gt_imgs = training_dataset(limit=5) # Memory hungry, use e.g. 10 for testing
+# Increase from 10 to 100 to generate submission.
+imgs, gt_imgs = training_dataset(limit=10) # Memory hungry, use e.g. 10 for testing
 
 train_data = [
     (patch, gt_patch)
@@ -39,7 +40,7 @@ num_filters_2 = 32
 num_filters_3 = 64
 num_filters_4 = 128
 
-epochs = 1
+epochs = 50
 
 def build_model(gpus=0):
     model = Sequential()
