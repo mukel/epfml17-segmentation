@@ -98,7 +98,7 @@ def pred_print(img, img_patches):
         for patch in img_patches
     ]
     pred = np.asarray(pred)
-    disp_img_pred(img, pred, patch_size)
+    #disp_img_pred(img, pred, patch_size)
     return pred
 
 
