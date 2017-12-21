@@ -20,5 +20,8 @@ The user simply needs to *Python3-execute* the run.py file.
 
 *Note: Running the code requires quite some memory. Having (at least) 40GB of RAM is highly recommended.*
 
+## Running time.
+The model was trained on a single p2.8xlarge (AWS) instance in around 1 hour. On a laptop we expect the training time to be around 72 hours. We ran our run.py with all training data in multi-gpu mode (disabled on the deliverable). The data augmentation is very memory hungry, taking a considerable amount of memory; at least 128GB of RAM are required to train the model with the full dataset.
+
 ## Authors
 Aimee Montero, Alfonso Peterssen, Philipp Chervet  
